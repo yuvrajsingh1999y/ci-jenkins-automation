@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/yourusername/ci-jenkins-automation.git'
+                git 'https://github.com/yuvrajsingh1999y/ci-jenkins-automation.git'
             }
         }
         stage('Build') {
