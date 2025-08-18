@@ -43,6 +43,7 @@ pipeline {
             // Collect Postman JUnit reports
             junit 'reports/newman-results.xml'
 
+
             // Archive Postman HTML report
             archiveArtifacts artifacts: 'reports/newman-report.html', onlyIfSuccessful: false
         }
