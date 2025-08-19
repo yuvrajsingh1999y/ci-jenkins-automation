@@ -38,7 +38,7 @@ pipeline {
             }
         }
     }
-
+//test
     post {
         always {
             junit 'reports/newman-results.xml'
