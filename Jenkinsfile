@@ -2,26 +2,33 @@ pipeline {
     agent any
 
     tools {
-        // Name must match what you configured under:
-        // Manage Jenkins → Global Tool Configuration → NodeJS installations
-        nodejs "Node18"
+        nodejs 'Node18' // Use the NodeJS tool configured in Jenkins
     }
 
     stages {
-        stage('Install Newman') {
+        stage('Checkout') {
             steps {
-                bat 'npm install -g newman'
+                checkout scm
+            }
+        }
+
+        stage('Install Newman + Reporter') {
+            steps {
+                bat '''
+                    npm install -g newman
+                    npm install -g newman-reporter-html
+                '''
             }
         }
 
         stage('Run Postman Collection') {
             steps {
                 bat '''
-                if not exist reports mkdir reports
-                newman run postman_collection.json -e postman_environment.json ^
-                    --reporters cli,junit,html ^
-                    --reporter-junit-export reports\\newman-results.xml ^
-                    --reporter-html-export reports\\newman-report.html
+                    if not exist reports mkdir reports
+                    newman run postman_collection.json -e postman_environment.json ^
+                        --reporters cli,junit,html ^
+                        --reporter-junit-export reports\\newman-results.xml ^
+                        --reporter-html-export reports\\newman-report.html
                 '''
             }
         }
@@ -30,12 +37,8 @@ pipeline {
     post {
         always {
             echo "Publishing test results..."
-
-            // Publish JUnit XML results
-            junit 'reports\\newman-results.xml'
-
-            // Archive Newman HTML report so you can download/view in Jenkins
-            archiveArtifacts artifacts: 'reports\\newman-report.html', fingerprint: true
+            junit 'reports/newman-results.xml'
+            archiveArtifacts artifacts: 'reports/*.*', fingerprint: true
         }
     }
 }
