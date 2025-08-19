@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'Node18' // Use the NodeJS tool configured in Jenkins
+        nodejs "NodeJS"   // Use the NodeJS tool you configured in Jenkins Global Tool Configuration
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main', url: 'https://github.com/yuvrajsingh1999y/ci-jenkins-automation'
             }
         }
 
@@ -21,7 +21,7 @@ pipeline {
             }
         }
 
-        stage('Run Postman Collection') {
+        stage('Run Postman Tests') {
             steps {
                 bat '''
                     if not exist reports mkdir reports
@@ -36,9 +36,9 @@ pipeline {
 
     post {
         always {
-            echo "Publishing test results..."
+            echo 'Publishing test results...'
             junit 'reports/newman-results.xml'
-            archiveArtifacts artifacts: 'reports/*.*', fingerprint: true
+            archiveArtifacts artifacts: 'reports/*.*', allowEmptyArchive: true
         }
     }
 }
