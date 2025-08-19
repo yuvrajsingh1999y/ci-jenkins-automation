@@ -2,37 +2,26 @@ pipeline {
     agent any
 
     tools {
-        // 👇 Change this name to match your Jenkins NodeJS installation (Manage Jenkins → Tools → NodeJS)
+        // Name must match what you configured under:
+        // Manage Jenkins → Global Tool Configuration → NodeJS installations
         nodejs "Node18"
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Install Newman') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/yuvrajsingh1999y/ci-jenkins-automation'
+                bat 'npm install -g newman'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Run Postman Collection') {
             steps {
-                // Install Newman locally
-                sh 'npm install -g newman'
-            }
-        }
-
-        stage('Run Postman Tests') {
-            steps {
-                // Ensure reports folder exists
-                sh 'mkdir -p reports'
-
-                // Run Newman with reports
-                sh '''
-                newman run postman_collection.json \
-                    -e postman_environment.json \
-                    --reporters cli,junit,html \
-                    --reporter-junit-export reports/newman-results.xml \
-                    --reporter-html-export reports/newman-report.html
+                bat '''
+                if not exist reports mkdir reports
+                newman run postman_collection.json -e postman_environment.json ^
+                    --reporters cli,junit,html ^
+                    --reporter-junit-export reports\\newman-results.xml ^
+                    --reporter-html-export reports\\newman-report.html
                 '''
             }
         }
@@ -40,11 +29,13 @@ pipeline {
 
     post {
         always {
-            // ✅ Collect test reports (must be inside node context)
-            junit 'reports/newman-results.xml'
+            echo "Publishing test results..."
 
-            // Save HTML report
-            archiveArtifacts artifacts: 'reports/newman-report.html', fingerprint: true
+            // Publish JUnit XML results
+            junit 'reports\\newman-results.xml'
+
+            // Archive Newman HTML report so you can download/view in Jenkins
+            archiveArtifacts artifacts: 'reports\\newman-report.html', fingerprint: true
         }
     }
 }
