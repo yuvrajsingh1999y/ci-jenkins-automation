@@ -33,6 +33,7 @@ pipeline {
         }
 
         stage('Run Postman Tests') {
+
             steps {
                 bat '"C:\\Users\\junja\\AppData\\Roaming\\npm\\newman.cmd" run postman_collection.json -e postman_environment.json --reporters cli,junit,html --reporter-junit-export reports\\newman-results.xml --reporter-html-export reports\\newman-report.html'
             }
