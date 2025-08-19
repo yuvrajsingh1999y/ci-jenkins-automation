@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         maven 'Maven'    // adjust name to your Maven installation
-        nodejs 'NodeJS'  // adjust name to your NodeJS installation
+        nodejs 'node18'  // use the exact name from Jenkins "NodeJS installations"
     }
 
     stages {
@@ -38,7 +38,7 @@ pipeline {
             }
         }
     }
-//test
+
     post {
         always {
             junit 'reports/newman-results.xml'
