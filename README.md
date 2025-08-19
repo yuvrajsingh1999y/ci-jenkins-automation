@@ -1,23 +1,34 @@
-# Continuous Integration and Delivery with Jenkins for Automated Tests
+# Continuous Integration with Jenkins + Postman API Tests
 
-## 🔧 Tools Used
-- Java, Maven, Selenium, TestNG
-- Jenkins (CI)
-- GitHub (Version Control)
-- Postman (API Testing)
+## 📌 Project Overview
+This project demonstrates a Jenkins CI pipeline that runs Postman API tests using Newman and publishes results in JUnit + HTML format.
 
-## ✅ How to Run
-### 1. Selenium Tests
-- Open the project in IntelliJ
-- Run `mvn clean test`
-- ChromeDriver must be installed and in your system path
+## 🚀 Setup Instructions
 
-### 2. Postman Tests
-- Import `ci-api-tests.postman_collection.json` into Postman
-- Run the collection manually or via Newman (CLI)
+### Prerequisites
+- Windows 11
+- Jenkins installed
+- NodeJS installed and configured in Jenkins (`Manage Jenkins > Global Tool Configuration`)
+- GitHub repository with Postman collection and environment
 
-### 3. Jenkins CI
-- Create a Pipeline job
-- Paste the contents of `Jenkinsfile`
-- Connect to your GitHub repo
-- Run the pipeline and view reports
+### Steps
+1. Clone this repository into Jenkins job (Pipeline type).
+2. In Jenkins Global Tool Configuration:
+   - Add NodeJS installation (e.g., name: `NodeJS_20`).
+3. Create a new Pipeline job and point to this repository.
+4. Run the job. Jenkins will:
+   - Install Newman
+   - Run Postman collection
+   - Generate test reports (`JUnit` + `HTML`)
+   - Publish results in Jenkins.
+
+### 📝 Reports
+- `reports/newman-results.xml` → JUnit (shown in Jenkins Test Result Trend)
+- `reports/newman-report.html` → Detailed Newman HTML report
+
+---
+
+### 4. **Reports**
+After running the pipeline:
+- Upload `reports/newman-results.xml`
+- Upload `reports/newman-report.html`

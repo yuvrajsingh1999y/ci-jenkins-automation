@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Newman Report - Reqres API Tests</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #2c3e50; }
+        .pass { color: green; }
+        .fail { color: red; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+    </style>
+</head>
+<body>
+<h1>Newman Report</h1>
+<p><strong>Collection:</strong> Reqres API Tests</p>
+<p><strong>Total Tests:</strong> 3 | <span class="pass">Passed: 2</span> | <span class="fail">Failed: 1</span></p>
+
+<table>
+    <tr><th>Test Name</th><th>Status</th><th>Details</th></tr>
+    <tr><td>GET List Users</td><td class="pass">PASS</td><td>-</td></tr>
+    <tr><td>GET Single User</td><td class="pass">PASS</td><td>-</td></tr>
+    <tr><td>GET Single User Not Found</td><td class="fail">FAIL</td><td>Expected 200 but got 404</td></tr>
+</table>
+</body>
+</html>

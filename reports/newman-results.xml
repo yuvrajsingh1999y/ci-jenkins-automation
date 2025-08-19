@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+    <testsuite name="Reqres API Tests" tests="3" failures="1" time="2.345">
+        <testcase classname="Users" name="GET List Users" time="0.567"/>
+        <testcase classname="Users" name="GET Single User" time="0.421"/>
+        <testcase classname="Users" name="GET Single User Not Found" time="0.342">
+            <failure message="Expected status code 200 but got 404">
+                AssertionError: expected response code to be 200 but got 404
+            </failure>
+        </testcase>
+    </testsuite>
+</testsuites>
